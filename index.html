@@ -11,7 +11,6 @@
  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
      <script type="text/javascript">
         $(document).ready(function() {
-
             $("#submit").click(function(e) {
                 e.preventDefault();
 				var body = {
@@ -19,7 +18,6 @@
 				    text: $("#name").val(),
 				    barcode: $("#barcode").val()
 				}
-				$('#listings').text('Loading...');
 				axios({
 				    method: 'post',
 				    url: 'https://xe237hoz4d.execute-api.us-east-1.amazonaws.com/record',
@@ -27,23 +25,56 @@
 				})
 				.then(function (response) {
 				    console.log(response);
-				    list(response);
+				    if(response.data[0]=="no results"){
+				    	$('#listings').text('No Results, search again.');
+				    }
+				    else {
+				  		var lis = document.getElementById('listings');
+        				lis.innerHTML = "";
+				    	list(response);
+				    }
+
 				})
 				.catch(function (error) {
 				    console.log(error);
-				    $('#listings').text('Error.');
-
+				    $('#listings').text('Error. Search Again');
 				});
 
             })
+			$("#upload").click(function(e) {
+                e.preventDefault();
+				var body = {
+				    title: $("#title").val(),
+				    artist: $("#artist").val(),
+				    year: $("#year").val()
+				    genre: $("#genre").val()
+				}
+				axios({
+				    method: 'post',
+				    url: 'https://xe237hoz4d.execute-api.us-east-1.amazonaws.com/record',
+				    data: body
+				})
+				.then(function (response) {
+				    console.log(response);
+        			document.getElementById("sender").style.display = "none";
+        			document.getElementById("searcher").style.display = "block";
+        			$('#searcher').text('Cataloged!');
 
+				})
+				.catch(function (error) {
+				    console.log(error);
+				    $('#listings').text('Error. Search Again');
+				});
+
+            })
         });
+        var resarray;
         function list(data) {
         	var artist;
         	var title;
         	var year;
-        	var link;
         	data = data.data;
+        	resarray = data;
         	for (var i = data.length - 1; i >= 0; i--) {
         		title = data[i][0];
         		artist = data[i][1];
@@ -51,33 +82,66 @@
         		var listings = document.getElementById('listings');
           		var listing = listings.appendChild(document.createElement('div'));
           		var list = listing.appendChild(document.createElement('h3'));
-          		list.innerHTML = title + " by " + artist + ", " + year;
-          		console.log("here");
-        	}
+          		list.innerHTML = title + " by " + artist + ", " + year + ' <button class="btn btn-sm btn-primary" onclick="input('+ i+ ')">Select</button>';
+    }
+}
+        function input(number) {
+        	console.log(resarray[number]);
+        	document.getElementById('title').value = resarray[number][0];
+        	document.getElementById('artist').value = resarray[number][1];
+        	document.getElementById('year').value = resarray[number][2];
+        	var sender = document.getElementById("sender");
+        	sender.style.display = "block";
+        	document.getElementById("searcher").style.display = "none";
+        	document.getElementById("listings").style.display = "none";
 
         }
     </script>
 <body>
+	<div id="sender" style="display: none;">
+		<form>
+			<div class="form-group">
+			  <label for="title" class="navy_text ">Album Title</label>
+			  <input type="text" name="title" id="title" value="" class="form-control here">
+			</div>
+			<div class="form-group">
+			  <label for="artist" class="navy_text ">Artist/Band</label>
+			  <input type="text" name="artist" id="artist" value="" class=" form-control here">
+			</div>
+			<div class="form-group">
+			  <label for="year" class="navy_text">Year Released</label>
+			   <input type="text" name="year" id="year" value="" placeholder="Name Artist Year" class="form-control  here" >
+			</div>
+			<div class="form-group">
+			  <label for="genre" class="navy_text">Genre</label>
+			   <input type="text" name="genre" id="genre" value="" class="form-control here" >
+			</div>
+			<div class="clear form-group">
+			    <input type="submit" value="Submit!" id="upload" class="btn btn-lg btn-block btn-primary">
+			 </div>
+		</form>
+	</div>
 	<div style="text-align: center;" id="searcher">
 		<form>
 
 			<div class="form-group">
 			  <label for="recordid" class="navy_text ">Record ID</label>
-			  <input type="text" name="recordid" id="recordid" value=""  class=" form-control here">
+			  <input type="text" name="recordid" id="recordid" placeholder="CL-2349" value=""  class=" form-control here">
 			</div>
 			<div class="form-group">
 			  <label for="barcode" class="navy_text ">barcode</label>
-			  <input type="text" name="barcode" id="barcode" value=""  class=" form-control here">
+			  <input type="text" name="barcode" id="barcode" value="" class=" form-control here">
 			</div>
 			<div class="form-group">
 			  <label for="name" class="navy_text">Search Name</label>
-			   <input type="text" name="name" id="name" value=""  class="form-control  here" >
+			   <input type="text" name="name" id="name" value="" placeholder="Name Artist Year" class="form-control  here" >
 			</div>
 			<div class="clear form-group">
-			    <input type="submit" value="Send" id="submit" class="btn btn-lg btn-block btn-navy">
+			    <input type="submit" value="Send" id="submit" class="btn btn-lg btn-block btn-primary">
 			 </div>
 		</form>
 	</div>
+	<hr>
 <div id="listings" style="text-align: center;">
 	
 </div>
