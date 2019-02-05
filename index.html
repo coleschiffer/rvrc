@@ -92,18 +92,29 @@
     }
 }
         function input(number) {
-        	console.log(resarray[number]);
+        	if(number==-1) {
+        	document.getElementById('title').value = "";
+        	document.getElementById('artist').value = "";
+        	document.getElementById('year').value = "";
+        	}
+        	else {
         	document.getElementById('title').value = resarray[number][0];
         	document.getElementById('artist').value = resarray[number][1];
         	document.getElementById('year').value = resarray[number][2];
+        	}
         	var sender = document.getElementById("sender");
         	sender.style.display = "block";
         	document.getElementById("searcher").style.display = "none";
         	document.getElementById("listings").style.display = "none";
 
         }
+        function restore() {
+        	document.getElementById("sender").style.display = "none";
+			document.getElementById("searcher").style.display = "block";
+        }
     </script>
 <body>
+	<div class="container">
 	<div id="message" class="alert alert-success" style="display: none;"></div>
 	<div id="sender" style="display: none;">
 		<form>
@@ -127,30 +138,32 @@
 			    <input type="submit" value="Submit!" id="upload" class="btn btn-lg btn-block btn-primary">
 			 </div>
 		</form>
+			<button class="btn btn-block btn-sm btn-danger" onclick="restore()">Back To Search</button>
 	</div>
-	<div style="text-align: center;" id="searcher">
+	<div id="searcher">
 		<form>
 
 			<div class="form-group">
 			  <label for="recordid" class="navy_text ">Record ID</label>
 			  <input type="text" name="recordid" id="recordid" placeholder="CL-2349" value=""  class=" form-control here">
 			</div>
-			<div class="form-group">
+			<div style="display: none;" class="form-group">
 			  <label for="barcode" class="navy_text ">barcode</label>
 			  <input type="text" name="barcode" id="barcode" value="" class=" form-control here">
 			</div>
 			<div class="form-group">
-			  <label for="name" class="navy_text">Search Name</label>
-			   <input type="text" name="name" id="name" value="" placeholder="Name Artist Year" class="form-control  here" >
+			  <label for="name" class="navy_text">Search Field</label>
+			   <input type="text" name="name" id="name" value="" placeholder="Name Artist Year Record Label" class="form-control  here" >
 			</div>
 			<div class="clear form-group">
 			    <input type="submit" value="Send" id="submit" class="btn btn-lg btn-block btn-primary">
 			 </div>
 		</form>
+			<button class="btn btn-block btn-sm btn-warning" onclick="input(-1)">Manual Entry</button>
 	</div>
-	<hr>
-<div id="listings" style="text-align: center;">
+<div id="listings" class="row" style="text-align: center;">
 	
+</div>
 </div>
 </body>
 </html>
