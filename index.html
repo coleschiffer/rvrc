@@ -25,6 +25,7 @@
 				})
 				.then(function (response) {
 				    console.log(response);
+				   	document.getElementById("message").style.display = "none";
 				    if(response.data[0]=="no results"){
 				    	$('#listings').text('No Results, search again.');
 				    }
@@ -59,6 +60,7 @@
         			document.getElementById("sender").style.display = "none";
 					document.getElementById('message').innerHTML = "Cataloged Successfully!";
 					document.getElementById("searcher").style.display = "block";
+					document.getElementById("message").style.display = "block";
 
 				})
 				.catch(function (error) {
@@ -98,7 +100,7 @@
         }
     </script>
 <body>
-	<div id="message" class="alert alert-success"></div>
+	<div id="message" class="alert alert-success" style="display: none;"></div>
 	<div id="sender" style="display: none;">
 		<form>
 			<div class="form-group">
