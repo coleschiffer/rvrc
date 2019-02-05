@@ -51,14 +51,14 @@
 				}
 				axios({
 				    method: 'post',
-				    url: '',
+				    url: ' https://09d2jiwf0j.execute-api.us-east-1.amazonaws.com/go',
 				    data: body
 				})
 				.then(function (response) {
 				    console.log(response);
         			document.getElementById("sender").style.display = "none";
-        			document.getElementById("searcher").style.display = "block";
-        			$('#searcher').text('Cataloged!');
+					document.getElementById('message').innerHTML = "Cataloged Successfully!";
+					document.getElementById("searcher").style.display = "block";
 
 				})
 				.catch(function (error) {
@@ -98,6 +98,7 @@
         }
     </script>
 <body>
+	<div id="message" class="alert alert-success"></div>
 	<div id="sender" style="display: none;">
 		<form>
 			<div class="form-group">
