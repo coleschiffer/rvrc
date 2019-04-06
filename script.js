@@ -38,6 +38,8 @@ $(document).ready(function() {
 				    artist: $("#artist").val(),
 				    year: $("#year").val(),
 				    genre: $("#genre").val()
+            genre: $("#location").val()
+
 				}
 				axios({
 				    method: 'post',
