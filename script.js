@@ -37,8 +37,9 @@ $(document).ready(function() {
 				    title: $("#title").val(),
 				    artist: $("#artist").val(),
 				    year: $("#year").val(),
-				    genre: $("#genre").val()
-            genre: $("#location").val()
+				    genre: $("#genre").val(),
+            location: $("#location").val(),
+            logger: $("#logger").val()
 
 				}
 				axios({
